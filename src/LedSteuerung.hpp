@@ -10,27 +10,21 @@
 class LedSteuerung{
 	private:
 
-	const static int LeftForwardPin = 2;
-	const static int LeftBackwardPin = 3;
-	const static int LeftPwmPin = 0;
+	const static int RedPwmPin = 0;
+	const static int GreenPwmPin = 7;
+	const static int BluePwmPin = 7;
 
-	const static int RightForwardPin = 8;
-	const static int RightBackwardPin = 9;
-	const static int RightPwmPin = 7;
+	const static int RedPwmRange = 1000;
+	const static int GreenPwmRange = 1000;
+	const static int BluePwmRange = 1000;
 
-	const static int LeftPwmRange = 100;
-	const static int RightPwmRange = 100;
-	
-	const static int acceleration = 5;
-	const static int brakeForce = 5;
+	static int RedMaxPwmValue = 100;
+	static int GreenMaxPwmValue = 100;
+	static int BlueMaxPwmValue = 100;
 
-	const static int steeringAngle = 10;
-
-	const static int deltaSpeed = 1;
-
-	int LeftSpeed;
-	int RightSpeed;
-	bool forward;
+	int RedPwmValue;
+	int GreenPwmValue;
+	int BluePwmValue;
 	
 	LedSteuerung();
 	
@@ -47,19 +41,21 @@ class LedSteuerung{
 
 	~LedSteuerung();
 	
-	void setSpeed(int speed);
-	void setLeftSpeed(int speed);
-	void setRightSpeed(int speed);
-	void faster(void);
-	void slower(void);
-	void left(void);
-	void right(void);
-	void stop(void);
-	void straight(void);
-	void changeDirection(void);
-	void changeDirectionLeft(void);
-	void changeDirectionRight(void);
-	void writeOut(void);
+	void setRedPwmValue(int newValue);
+	void setGreenPwmValue(int newValue);
+	void setBluePwmValue(int newValue);
+	void setBrightness(int newValue);
+
+	void increaseBrightness(int newValue);
+	void increaseRedPwmValue(int newValue);
+	void increaseGreenPwmValue(int newValue);
+	void increaseBluePwmValue(int newValue);
+
+	void turnOff(void);
+
+	void writeRed(void);
+	void writeGreen(void);
+	void writeBlue(void);
 };
 #endif
 

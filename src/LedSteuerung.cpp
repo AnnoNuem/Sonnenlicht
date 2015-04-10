@@ -3,23 +3,14 @@
 
 LedSteuerung::LedSteuerung(){
 	wiringPiSetup();
-	pinMode(LeftForwardPin, OUTPUT);
-	pinMode(LeftBackwardPin, OUTPUT);
-	pinMode(RightForwardPin, OUTPUT);
-	pinMode(RightBackwardPin, OUTPUT);
 
-	digitalWrite(LeftForwardPin, HIGH);
-	digitalWrite(LeftBackwardPin, LOW);
-	digitalWrite(RightForwardPin, HIGH);
-	digitalWrite(RightBackwardPin, LOW);
-
-	forward = true;
-
-	LeftSpeed = 0;
-	RightSpeed = 0;
+	RedPwmValue = 0;
+	GreenPwmValue = 0;
+	BluePwmValue = 0;
 	
-	softPwmCreate(LeftPwmPin, 0, LeftPwmRange);
-	softPwmCreate(RightPwmPin, 0, RightPwmRange);
+	softPwmCreate(RedPwmPin, 0, RedPwmRange);
+	softPwmCreate(GreenPwmPin, 0, GreenPwmRange);
+	softPwmCreate(BluePwmPin, 0, BluePwmRange);
 	}
 
 void LedSteuerung::faster(){
@@ -86,16 +77,6 @@ void LedSteuerung::changeDirection(void){
 	this->writeOut();
 }
 
-void LedSteuerung::changeDirectionLeft(void){
-	LeftSpeed = LeftSpeed * -1;
-	this->writeOut();
-}
-
-void LedSteuerung::changeDirectionRight(void){
-	RightSpeed = RightSpeed * -1;
-	this->writeOut();
-}
-
 void LedSteuerung::setLeftSpeed(int speed){
 	if (0 < speed < LeftPwmRange){
 		LeftSpeed = speed;
@@ -110,66 +91,66 @@ void LedSteuerung::setRightSpeed(int speed){
 	}
 }
 
-void LedSteuerung::setSpeed(int speed)
-{
-			printw("wwwww");
-	int speedChange  = speed - (RightSpeed + LeftSpeed) / 2;
+void LedSteuerung::increaseRedPwmValue(int newValue){
+	if ((0 <= (RedPwmValue + newValue)) && ((RedPwmValue + NewValue) <= RedMaxPwmValue))
+	{
+		RedPwmvValue = RedPwmValue + newValue;
+		this->writeRed;
+	}
+}
 
-	printw("%d", speedChange);
-	if (speedChange > 0)
+void LedSteuerung::increaseGreenPwmValue(int newValue){
+	if ((0 <= (GreenPwmValue + newValue)) && ((GreenPwmValue + NewValue) <= GreenMaxPwmValue))
 	{
-		for ( int i = 0 ; i < speedChange; i + acceleration)
-		{
-			this->faster();
-			this->writeOut();
-			usleep(10000);
-		}
+		GreenPwmvValue = GreenPwmValue + newValue;
+		this->writeGreen;
 	}
-	else
+}
+
+void LedSteuerung::increaseBluePwmValue(int newValue){
+	if ((0 <= (BluePwmValue + newValue)) && ((BluePwmValue + NewValue) <= BlueMaxPwmValue))
 	{
-		for ( int i = 0 ; i < speedChange; i + brakeForce)
-		{
-			this->slower();
-			this->writeOut();
-			usleep(10000);		
-		}
+		BluePwmvValue = BluePwmValue + newValue;
+		this->writeBlue;
 	}
+}
+
+void LedSteuerung::turnOff(void){
+	RedPwmValue = 0;
+	GreenPwmValue = 0;
+	BluePwmValue = 0;
+
+	this->writeRed();
+	this->writeGreen();
+	this->writeBlue();
 }
 	
-void LedSteuerung::writeOut(void){
-	if(LeftSpeed > 0)
-	{
-		digitalWrite(LeftForwardPin, HIGH);
-		digitalWrite(LeftBackwardPin, LOW);
-	}
-	else
-	{
-		digitalWrite(LeftForwardPin, LOW);
-		digitalWrite(LeftBackwardPin, HIGH);
-	}
-
-	if(RightSpeed > 0)
-	{
-		digitalWrite(RightForwardPin, HIGH);
-		digitalWrite(RightBackwardPin, LOW);
-	}
-	else{
-		digitalWrite(RightForwardPin, LOW);
-		digitalWrite(RightBackwardPin, HIGH);
-	}
-
-	softPwmWrite(LeftPwmPin, fabs(LeftSpeed));
-	softPwmWrite(RightPwmPin, fabs(RightSpeed));
+void LedSteuerung::writeRed(void){
+	if ((0 <= RedPwmValue) && (RedPwmValue <= RedMaxPwmValue))
+	{	
+		softPwmWrite(RedPwmPin, RedPwmValue);
+	}	
 }
+
+void LedSteuerung::writeGreen(void){
+	if ((0 <= GreenPwmValue) && (GreenPwmValue <= GreenMaxPwmValue))
+	{	
+		softPwmWrite(GreenPwmPin, GreenPwmValue);
+	}	
+}
+	
+void LedSteuerung::writeBlue(void){
+	if ((0 <= BluePwmValue) && (BluePwmValue <= BlueMaxPwmValue))
+	{	
+		softPwmWrite(BluePwmPin, BluePwmValue);
+	}	
+}
+	
 	
 LedSteuerung::~LedSteuerung(){
-	digitalWrite(LeftForwardPin, LOW);
-	digitalWrite(LeftBackwardPin, LOW);
-	digitalWrite(RightForwardPin, LOW);
-	digitalWrite(RightBackwardPin, LOW);
-
-	softPwmWrite(LeftPwmPin, 0);
-	softPwmWrite(RightPwmPin, 0);
+	softPwmWrite(RedPwmPin, 0);
+	softPwmWrite(GreenPwmPin, 0);
+	softPwmWrite(BluePwmPin, 0);
 }
 
 	
