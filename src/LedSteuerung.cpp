@@ -1,4 +1,4 @@
-	#include "LedSteuerung.hpp"
+#include "LedSteuerung.hpp"
 
 
 LedSteuerung::LedSteuerung(){
@@ -11,91 +11,46 @@ LedSteuerung::LedSteuerung(){
 	softPwmCreate(RedPwmPin, 0, RedPwmRange);
 	softPwmCreate(GreenPwmPin, 0, GreenPwmRange);
 	softPwmCreate(BluePwmPin, 0, BluePwmRange);
-	}
+}
 
-void LedSteuerung::faster(){
-	if (forward)
+void LedSteuerung::setRedPwmValue(int newValue){
+	if ((0 <= newValue) && (newValue <= RedMaxPwmValue))
 	{
-		LeftSpeed = ((LeftSpeed + acceleration) < LeftPwmRange) ? LeftSpeed + acceleration : LeftPwmRange; 
-		RightSpeed = ((RightSpeed + acceleration) < RightPwmRange) ? RightSpeed + acceleration : RightPwmRange;
+		RedPwmValue = newValue;
 	}
-	else
+}
+
+void LedSteuerung::setGreenPwmValue(int newValue){
+	if ((0 <= newValue) && (newValue <= GreenMaxPwmValue))
 	{
-		LeftSpeed = ((LeftSpeed - acceleration) > -LeftPwmRange) ? LeftSpeed - acceleration : -LeftPwmRange; 
-		RightSpeed = ((RightSpeed + acceleration) > -RightPwmRange) ? RightSpeed - acceleration : -RightPwmRange;
+		GreenPwmValue = newValue;
 	}
-	this->writeOut();
 }
 
-void LedSteuerung::slower(void){
-	if (forward)
+void LedSteuerung::setBluePwmValue(int newValue){
+	if ((0 <= newValue) && (newValue <= BlueMaxPwmValue))
 	{
-		LeftSpeed = ((LeftSpeed - brakeForce) < 1) ?  0 : LeftSpeed - brakeForce; 
-		RightSpeed = ((RightSpeed - brakeForce) < 1) ? 0 : RightSpeed - brakeForce;
-	}
-	else
-	{
-		LeftSpeed = ((LeftSpeed + brakeForce) > -1) ?  0 : LeftSpeed + brakeForce; 
-		RightSpeed = ((RightSpeed + brakeForce) > -1) ? 0 : RightSpeed + brakeForce;
-	}
-	this->writeOut();
-}
-
-void LedSteuerung::right(void){
-		LeftSpeed -= steeringAngle;
-
-	RightSpeed = ((RightSpeed + steeringAngle) < RightPwmRange) ? RightSpeed + steeringAngle : RightPwmRange;
-
-	this->writeOut();
-}
-
-void LedSteuerung::left(void){
-		RightSpeed -= steeringAngle;
-
-	LeftSpeed = ((LeftSpeed + steeringAngle) < LeftPwmRange) ? LeftSpeed + steeringAngle : LeftPwmRange;
-
-	this->writeOut();
-}
-
-void LedSteuerung::stop(void){
-	LeftSpeed = 0;
-	RightSpeed = 0;
-	this->writeOut();
-}
-
-void LedSteuerung::straight(void){
-	int meanSpeed = (LeftSpeed + RightSpeed) / 2;
-	LeftSpeed = meanSpeed;
-	RightSpeed = meanSpeed;
-	this->writeOut();
-}
-
-void LedSteuerung::changeDirection(void){
-	forward = !forward;
-	LeftSpeed = LeftSpeed * -1;
-	RightSpeed = RightSpeed * -1;
-	this->writeOut();
-}
-
-void LedSteuerung::setLeftSpeed(int speed){
-	if (0 < speed < LeftPwmRange){
-		LeftSpeed = speed;
-		this->writeOut();
+		BluePwmValue = newValue;
 	}
 }
 
-void LedSteuerung::setRightSpeed(int speed){
-	if (0 < speed < RightPwmRange){
-		RightSpeed = speed;
-		this->writeOut();
-	}
+void LedSteuerung::setBrightness(int newValue){
+	setRedPwmValue(int newValue);
+	setGreenPwmValue(int newValue);
+	setBluePwmValue(int newValue);
+}
+
+void LedSteuerung::increaseBrightness(int newValue){
+	this->increaseRedPwmValue(newValue);
+	this->increaseGreenPwmValue(newValue);
+	this->increaseBluePwmValue(newValue);
 }
 
 void LedSteuerung::increaseRedPwmValue(int newValue){
 	if ((0 <= (RedPwmValue + newValue)) && ((RedPwmValue + NewValue) <= RedMaxPwmValue))
 	{
 		RedPwmvValue = RedPwmValue + newValue;
-		this->writeRed;
+		this->writeRed();
 	}
 }
 
@@ -103,7 +58,7 @@ void LedSteuerung::increaseGreenPwmValue(int newValue){
 	if ((0 <= (GreenPwmValue + newValue)) && ((GreenPwmValue + NewValue) <= GreenMaxPwmValue))
 	{
 		GreenPwmvValue = GreenPwmValue + newValue;
-		this->writeGreen;
+		this->writeGreen();
 	}
 }
 
@@ -111,7 +66,7 @@ void LedSteuerung::increaseBluePwmValue(int newValue){
 	if ((0 <= (BluePwmValue + newValue)) && ((BluePwmValue + NewValue) <= BlueMaxPwmValue))
 	{
 		BluePwmvValue = BluePwmValue + newValue;
-		this->writeBlue;
+		this->writeBlue();
 	}
 }
 
@@ -153,6 +108,17 @@ LedSteuerung::~LedSteuerung(){
 	softPwmWrite(BluePwmPin, 0);
 }
 
+int LedSteuerung::getRedPwmValue(void){
+	return RedPwmValue;
+}
+
+int LedSteuerung::getGreenPwmValue(void){
+	return GreenPwmValue;
+}
+
+int LedSteuerung::getBluePwmValue(void){
+	return BluePwmValue;
+}
 	
 
 

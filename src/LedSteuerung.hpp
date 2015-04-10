@@ -18,10 +18,6 @@ class LedSteuerung{
 	const static int GreenPwmRange = 1000;
 	const static int BluePwmRange = 1000;
 
-	static int RedMaxPwmValue = 100;
-	static int GreenMaxPwmValue = 100;
-	static int BlueMaxPwmValue = 100;
-
 	int RedPwmValue;
 	int GreenPwmValue;
 	int BluePwmValue;
@@ -32,7 +28,16 @@ class LedSteuerung{
 
 	LedSteuerung& operator= (const LedSteuerung&);
 
+	void writeRed(void);
+	void writeGreen(void);
+	void writeBlue(void);
+
 	public:
+
+	static int RedMaxPwmValue = 100;
+	static int GreenMaxPwmValue = 100;
+	static int BlueMaxPwmValue = 100;
+
 	static LedSteuerung& instance()
 	{
 		static LedSteuerung _instance;
@@ -53,9 +58,10 @@ class LedSteuerung{
 
 	void turnOff(void);
 
-	void writeRed(void);
-	void writeGreen(void);
-	void writeBlue(void);
+	int getRedPwmValue(void);
+	int getGreenPwmValue(void);
+	int getBluePwmValue(void);
+
 };
 #endif
 
