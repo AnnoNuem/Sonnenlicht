@@ -35,9 +35,9 @@ void LedSteuerung::setBluePwmValue(int newValue){
 }
 
 void LedSteuerung::setBrightness(int newValue){
-	setRedPwmValue(int newValue);
-	setGreenPwmValue(int newValue);
-	setBluePwmValue(int newValue);
+	this->setRedPwmValue(newValue);
+	this->setGreenPwmValue(newValue);
+	this->setBluePwmValue(newValue);
 }
 
 void LedSteuerung::increaseBrightness(int newValue){
@@ -47,25 +47,25 @@ void LedSteuerung::increaseBrightness(int newValue){
 }
 
 void LedSteuerung::increaseRedPwmValue(int newValue){
-	if ((0 <= (RedPwmValue + newValue)) && ((RedPwmValue + NewValue) <= RedMaxPwmValue))
+	if ((0 <= (RedPwmValue + newValue)) && ((RedPwmValue + newValue) <= RedMaxPwmValue))
 	{
-		RedPwmvValue = RedPwmValue + newValue;
+		this->RedPwmValue = this->RedPwmValue + newValue;
 		this->writeRed();
 	}
 }
 
 void LedSteuerung::increaseGreenPwmValue(int newValue){
-	if ((0 <= (GreenPwmValue + newValue)) && ((GreenPwmValue + NewValue) <= GreenMaxPwmValue))
+	if ((0 <= (GreenPwmValue + newValue)) && ((GreenPwmValue + newValue) <= GreenMaxPwmValue))
 	{
-		GreenPwmvValue = GreenPwmValue + newValue;
+		this->GreenPwmValue = this->GreenPwmValue + newValue;
 		this->writeGreen();
 	}
 }
 
 void LedSteuerung::increaseBluePwmValue(int newValue){
-	if ((0 <= (BluePwmValue + newValue)) && ((BluePwmValue + NewValue) <= BlueMaxPwmValue))
+	if ((0 <= (BluePwmValue + newValue)) && ((BluePwmValue + newValue) <= BlueMaxPwmValue))
 	{
-		BluePwmvValue = BluePwmValue + newValue;
+		this->BluePwmValue = BluePwmValue + newValue;
 		this->writeBlue();
 	}
 }

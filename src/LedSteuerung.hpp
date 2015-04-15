@@ -32,9 +32,9 @@ class LedSteuerung{
 	void writeGreen(void);
 	void writeBlue(void);
 
-	static int RedMaxPwmValue = 255;
-	static int GreenMaxPwmValue = 255;
-	static int BlueMaxPwmValue = 255;
+	const static int RedMaxPwmValue = 255;
+	const static int GreenMaxPwmValue = 255;
+	const static int BlueMaxPwmValue = 255;
 
 	public:
 
