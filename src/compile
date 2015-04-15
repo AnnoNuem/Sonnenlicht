@@ -1,5 +1,5 @@
 #!/bin/bash
 
-g++  main.cpp LedSteuerung.cpp -o ../build/Sonnenlicht -std=c++11 -lpthread -lwiringPi -lcurses 
+g++  main.cpp LedSteuerung.cpp ColourCalculation.cpp -o ../build/Sonnenlicht -std=c++11 -lpthread -lwiringPi -lcurses 
 sudo chown root ../build/Sonnenlicht
 sudo chmod +s ../build/Sonnenlicht

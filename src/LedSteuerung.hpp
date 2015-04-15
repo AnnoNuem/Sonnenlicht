@@ -1,5 +1,5 @@
 #ifndef __LedSteuerung__hpp___
-#define ___LedSteuerung__hpp__
+#define __LedSteuerung__hpp__
 
 #include <wiringPi.h>
 #include <curses.h>
@@ -32,11 +32,11 @@ class LedSteuerung{
 	void writeGreen(void);
 	void writeBlue(void);
 
-	public:
+	static int RedMaxPwmValue = 255;
+	static int GreenMaxPwmValue = 255;
+	static int BlueMaxPwmValue = 255;
 
-	static int RedMaxPwmValue = 100;
-	static int GreenMaxPwmValue = 100;
-	static int BlueMaxPwmValue = 100;
+	public:
 
 	static LedSteuerung& instance()
 	{

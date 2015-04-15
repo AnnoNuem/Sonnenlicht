@@ -15,21 +15,7 @@
 	
 LedSteuerung& l = LedSteuerung::instance();
 
-int redPwmValue = 0;
-int greenPwmValue = 0;
-int bluePwmValue = 0;
-
-PI_THREAD(sonnenlicht)
-{
-	while(true)
-	{
-		usleep(10000);
-	}
-}
-
 int main(int argc, const char* argv[]){
-	system("TODO synctime");
-	
 	int ch;
 	
 	// input keys
@@ -47,8 +33,6 @@ int main(int argc, const char* argv[]){
 	nonl();
 	timeout(0);
 	keypad(stdscr, TRUE);
-
-	int t = piThreadCreate (sonnenlicht);
 
 	do
 	{
